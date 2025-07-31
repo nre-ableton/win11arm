@@ -105,6 +105,7 @@ start_vm() {
         -vga none \
         -device virtio-gpu-pci \
         -display none \
+        -vnc :1 \
         -device qemu-xhci \
         -device usb-kbd \
         -device usb-tablet \

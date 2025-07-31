@@ -511,7 +511,7 @@ cmd_firstboot() {
     
     # Check for desktop environment
     if [ -z "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ]; then
-        error "You need a desktop environment to run firstboot"
+        echo "You need a desktop environment to run firstboot"
     fi
     
     # Export PAN_MESA_DEBUG for better graphics performance
@@ -545,7 +545,8 @@ cmd_firstboot() {
         -name "Windows on Arm"
         -pidfile "$VM_PATH/qemu.pid"
         -device ramfb
-        -display gtk,grab-on-hover=on,gl=on
+        -display none # gtk,grab-on-hover=on,gl=on
+        -vnc :1
         -device qemu-xhci
         -device usb-kbd
         -device usb-tablet
@@ -565,6 +566,7 @@ cmd_firstboot() {
     
     status "Starting QEMU with ${VM_MEM}GB RAM (${total_ram_gb}GB total) and $num_cores CPU cores (${total_cores} total)"
     status "Windows should install 100% automatically. This will take awhile."
+    echo qemu-system-aarch64 "${qemu_flags[@]}"
     
     # Run QEMU with these flags
     if qemu-system-aarch64 "${qemu_flags[@]}"; then
