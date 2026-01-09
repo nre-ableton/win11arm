@@ -444,7 +444,13 @@ cmd_download() {
     fi
     
     # Download virtio drivers
-    download_virtio_drivers
+    if [ -f "$VM_PATH/virtio-win.iso" ]; then
+        read -p "virtio-win.iso already exists. Delete and download a fresh copy? [Y/n] " answer
+        [ "$answer" != "n" ] && rm -f "$VM_PATH/installer.iso"
+    fi
+    if [ ! -f "$VM_PATH/virtio-win.iso" ]; then
+        download_virtio_drivers
+    fi
     
     # Setup unattended installation files
     setup_unattended_files
